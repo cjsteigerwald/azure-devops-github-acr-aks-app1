@@ -16,12 +16,20 @@ spec:
     spec:
       containers:
         - name: app1-nginx
-          image: stacksimplify/kube-nginxapp1:1.0.0
+          image: aksdevopsacr75.azurecr.io/custom2aksnginxapp1
           ports:
             - containerPort: 80
-# To schedule pods on based on NodeSelectors
-      nodeSelector:
-        app: system-apps
-
-
-   
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app1-nginx-loadbalancer-service
+  labels:
+    app: app1-nginx
+spec:
+  type: LoadBalancer
+  selector:
+    app: app1-nginx
+  ports:
+    - port: 80
+      targetPort: 80
